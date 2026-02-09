@@ -43,32 +43,37 @@ const APP_CONFIGS: Record<string, AppConfig> = {
   },
   vscode: {
     name: "VS Code",
-    path: "Visual Studio Code",
-    useOpen: true,
+    path: "code",
+    useOpen: false,
   },
   cursor: {
     name: "Cursor",
-    path: "Cursor",
-    useOpen: true,
+    path: "cursor",
+    useOpen: false,
   },
   zed: {
     name: "Zed",
-    path: "Zed",
-    useOpen: true,
+    path: "zed",
+    useOpen: false,
   },
   webstorm: {
     name: "WebStorm",
-    path: "WebStorm",
-    useOpen: true,
+    path: "webstorm",
+    useOpen: false,
   },
   idea: {
     name: "IntelliJ IDEA",
-    path: "IntelliJ IDEA",
-    useOpen: true,
+    path: "idea",
+    useOpen: false,
   },
   sublime: {
     name: "Sublime Text",
-    path: "Sublime Text",
+    path: "subl",
+    useOpen: false,
+  },
+  opencode: {
+    name: "OpenCode",
+    path: "OpenCode",
     useOpen: true,
   },
 };

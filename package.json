@@ -57,6 +57,7 @@
       "default": "vscode",
       "data": [
         { "title": "VS Code", "value": "vscode" },
+        { "title": "OpenCode", "value": "opencode" },
         { "title": "Antigravity", "value": "antigravity" },
         { "title": "Cursor", "value": "cursor" },
         { "title": "Zed", "value": "zed" },

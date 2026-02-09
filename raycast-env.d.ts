@@ -13,7 +13,7 @@ type ExtensionPreferences = {
   /** Search Depth - How deep to search for subdirectories */
   "maxDepth": "1" | "2" | "3" | "4" | "5",
   /** Application - Select an application to open folders */
-  "appChoice": "vscode" | "antigravity" | "cursor" | "zed" | "webstorm" | "idea" | "sublime" | "custom",
+  "appChoice": "vscode" | "opencode" | "antigravity" | "cursor" | "zed" | "webstorm" | "idea" | "sublime" | "custom",
   /** Custom Application Path - Path to custom application (only used when 'Custom' is selected) */
   "customAppPath"?: string
 }
