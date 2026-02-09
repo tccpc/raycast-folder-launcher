@@ -15,20 +15,22 @@ type ExtensionPreferences = {
   /** Application - Select an application to open folders */
   "appChoice": "vscode" | "opencode" | "antigravity" | "cursor" | "zed" | "webstorm" | "idea" | "sublime" | "custom",
   /** Custom Application Path - Path to custom application (only used when 'Custom' is selected) */
-  "customAppPath"?: string
+  "customAppPath"?: string,
+  /** Include Hidden Folders - Include folders starting with '.' (e.g., .config, .local) */
+  "includeHidden": boolean
 }
 
 /** Preferences accessible in all the extension's commands */
 declare type Preferences = ExtensionPreferences
 
 declare namespace Preferences {
-  /** Preferences accessible in the `z` command */
-  export type Z = ExtensionPreferences & {}
+  /** Preferences accessible in the `quick-open` command */
+  export type QuickOpen = ExtensionPreferences & {}
 }
 
 declare namespace Arguments {
-  /** Arguments passed to the `z` command */
-  export type Z = {
+  /** Arguments passed to the `quick-open` command */
+  export type QuickOpen = {
   /** directory */
   "query": string
 }

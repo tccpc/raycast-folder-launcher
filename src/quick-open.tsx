@@ -23,6 +23,7 @@ interface Preferences {
   appChoice: string;
   customAppPath?: string;
   maxDepth: string;
+  includeHidden: boolean;
 }
 
 interface Arguments {
@@ -97,6 +98,7 @@ const ONE_WEEK_HOURS = 168;
 async function scanDirectoriesRecursively(
   basePath: string,
   maxDepth: number,
+  includeHidden: boolean,
 ): Promise<string[]> {
   const directories: string[] = [];
 
@@ -108,7 +110,10 @@ async function scanDirectoriesRecursively(
         withFileTypes: true,
       });
       for (const entry of entries) {
-        if (entry.isDirectory() && !entry.name.startsWith(".")) {
+        if (
+          entry.isDirectory() &&
+          (includeHidden || !entry.name.startsWith("."))
+        ) {
           const fullPath = path.join(dirPath, entry.name);
           directories.push(fullPath);
           if (currentDepth < maxDepth) {
@@ -194,6 +199,7 @@ export default function Command(props: LaunchProps<{ arguments: Arguments }>) {
         const scannedPaths = await scanDirectoriesRecursively(
           preferences.workspacePath,
           maxDepth,
+          preferences.includeHidden,
         );
         const allDirs = mergeDirectories(existingDirs, scannedPaths);
 

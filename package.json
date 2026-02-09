@@ -41,11 +41,26 @@
       "description": "How deep to search for subdirectories",
       "default": "2",
       "data": [
-        { "title": "1 level", "value": "1" },
-        { "title": "2 levels", "value": "2" },
-        { "title": "3 levels", "value": "3" },
-        { "title": "4 levels", "value": "4" },
-        { "title": "5 levels", "value": "5" }
+        {
+          "title": "1 level",
+          "value": "1"
+        },
+        {
+          "title": "2 levels",
+          "value": "2"
+        },
+        {
+          "title": "3 levels",
+          "value": "3"
+        },
+        {
+          "title": "4 levels",
+          "value": "4"
+        },
+        {
+          "title": "5 levels",
+          "value": "5"
+        }
       ]
     },
     {
@@ -56,15 +71,42 @@
       "description": "Select an application to open folders",
       "default": "vscode",
       "data": [
-        { "title": "VS Code", "value": "vscode" },
-        { "title": "OpenCode", "value": "opencode" },
-        { "title": "Antigravity", "value": "antigravity" },
-        { "title": "Cursor", "value": "cursor" },
-        { "title": "Zed", "value": "zed" },
-        { "title": "WebStorm", "value": "webstorm" },
-        { "title": "IntelliJ IDEA", "value": "idea" },
-        { "title": "Sublime Text", "value": "sublime" },
-        { "title": "Custom", "value": "custom" }
+        {
+          "title": "VS Code",
+          "value": "vscode"
+        },
+        {
+          "title": "OpenCode",
+          "value": "opencode"
+        },
+        {
+          "title": "Antigravity",
+          "value": "antigravity"
+        },
+        {
+          "title": "Cursor",
+          "value": "cursor"
+        },
+        {
+          "title": "Zed",
+          "value": "zed"
+        },
+        {
+          "title": "WebStorm",
+          "value": "webstorm"
+        },
+        {
+          "title": "IntelliJ IDEA",
+          "value": "idea"
+        },
+        {
+          "title": "Sublime Text",
+          "value": "sublime"
+        },
+        {
+          "title": "Custom",
+          "value": "custom"
+        }
       ]
     },
     {
@@ -74,6 +116,15 @@
       "title": "Custom Application Path",
       "description": "Path to custom application (only used when 'Custom' is selected)",
       "placeholder": "/path/to/your/app"
+    },
+    {
+      "name": "includeHidden",
+      "type": "checkbox",
+      "required": false,
+      "title": "Include Hidden Folders",
+      "description": "Include folders starting with '.' (e.g., .config, .local)",
+      "default": false,
+      "label": "Search hidden folders"
     }
   ],
   "dependencies": {
