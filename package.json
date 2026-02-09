@@ -3,7 +3,7 @@
   "title": "Folder Launcher",
   "description": "Quickly open folders with fuzzy search (zoxide-like)",
   "icon": "command-icon.png",
-  "author": "cuipengcheng",
+  "author": "tccpc",
   "license": "MIT",
   "version": "1.0.0",
   "$schema": "https://www.raycast.com/schemas/extension.json",
