@@ -9,9 +9,9 @@
   "$schema": "https://www.raycast.com/schemas/extension.json",
   "commands": [
     {
-      "name": "z",
-      "title": "z",
-      "subtitle": "Quick Open",
+      "name": "quick-open",
+      "title": "Quick Open",
+      "subtitle": "Folder Launcher",
       "description": "Fuzzy search and open folders",
       "mode": "view",
       "arguments": [

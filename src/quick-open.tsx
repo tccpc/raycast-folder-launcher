@@ -94,14 +94,19 @@ const ONE_HOUR_MS = 1000 * 60 * 60;
 const ONE_DAY_HOURS = 24;
 const ONE_WEEK_HOURS = 168;
 
-async function scanDirectoriesRecursively(basePath: string, maxDepth: number): Promise<string[]> {
+async function scanDirectoriesRecursively(
+  basePath: string,
+  maxDepth: number,
+): Promise<string[]> {
   const directories: string[] = [];
-  
+
   async function scan(dirPath: string, currentDepth: number) {
     if (currentDepth > maxDepth) return;
-    
+
     try {
-      const entries = await fs.promises.readdir(dirPath, { withFileTypes: true });
+      const entries = await fs.promises.readdir(dirPath, {
+        withFileTypes: true,
+      });
       for (const entry of entries) {
         if (entry.isDirectory() && !entry.name.startsWith(".")) {
           const fullPath = path.join(dirPath, entry.name);
@@ -115,14 +120,14 @@ async function scanDirectoriesRecursively(basePath: string, maxDepth: number): P
       /* permission denied - skip */
     }
   }
-  
+
   await scan(basePath, 1);
   return directories;
 }
 
 function calculateFrecencyScore(item: DirectoryItem): number {
   const hoursSinceAccess = (Date.now() - item.lastAccessed) / ONE_HOUR_MS;
-  
+
   let timeDecayWeight = 1;
   if (hoursSinceAccess < 1) {
     timeDecayWeight = 4;
@@ -131,30 +136,30 @@ function calculateFrecencyScore(item: DirectoryItem): number {
   } else if (hoursSinceAccess < ONE_WEEK_HOURS) {
     timeDecayWeight = 1.5;
   }
-  
+
   return item.frecency * timeDecayWeight;
 }
 
 async function loadStoredDirectories(): Promise<DirectoryItem[]> {
   const storedData = await LocalStorage.getItem<string>(STORAGE_KEY);
   if (!storedData) return [];
-  
+
   const parsed: StoredData = JSON.parse(storedData);
   return parsed.directories || [];
 }
 
 function mergeDirectories(
   existingDirs: DirectoryItem[],
-  scannedPaths: string[]
+  scannedPaths: string[],
 ): DirectoryItem[] {
   const dirMap = new Map<string, DirectoryItem>();
-  
+
   for (const dir of existingDirs) {
     if (fs.existsSync(dir.path)) {
       dirMap.set(dir.path, dir);
     }
   }
-  
+
   for (const dirPath of scannedPaths) {
     if (!dirMap.has(dirPath)) {
       dirMap.set(dirPath, {
@@ -165,7 +170,7 @@ function mergeDirectories(
       });
     }
   }
-  
+
   return Array.from(dirMap.values());
 }
 
@@ -186,9 +191,12 @@ export default function Command(props: LaunchProps<{ arguments: Arguments }>) {
       try {
         const existingDirs = await loadStoredDirectories();
         const maxDepth = parseInt(preferences.maxDepth) || 2;
-        const scannedPaths = await scanDirectoriesRecursively(preferences.workspacePath, maxDepth);
+        const scannedPaths = await scanDirectoriesRecursively(
+          preferences.workspacePath,
+          maxDepth,
+        );
         const allDirs = mergeDirectories(existingDirs, scannedPaths);
-        
+
         setDirectories(allDirs);
         await persistDirectories(allDirs);
       } catch (error) {
@@ -200,7 +208,7 @@ export default function Command(props: LaunchProps<{ arguments: Arguments }>) {
       }
       setIsLoading(false);
     }
-    
+
     initializeDirectories();
   }, []);
 
@@ -217,7 +225,9 @@ export default function Command(props: LaunchProps<{ arguments: Arguments }>) {
 
   const filteredDirectories = useMemo(() => {
     const sortByFrecency = (items: DirectoryItem[]) =>
-      [...items].sort((a, b) => calculateFrecencyScore(b) - calculateFrecencyScore(a));
+      [...items].sort(
+        (a, b) => calculateFrecencyScore(b) - calculateFrecencyScore(a),
+      );
 
     if (!searchText) {
       return sortByFrecency(directories);
@@ -248,16 +258,16 @@ export default function Command(props: LaunchProps<{ arguments: Arguments }>) {
       } else {
         await execAsync(`"${appConfig.path}" "${item.path}"`);
       }
-      
+
       const updatedDirs = directories.map((d) =>
         d.path === item.path
           ? { ...d, frecency: d.frecency + 1, lastAccessed: Date.now() }
-          : d
+          : d,
       );
-      
+
       setDirectories(updatedDirs);
       await persistDirectories(updatedDirs);
-      
+
       showToast({
         style: Toast.Style.Success,
         title: `Opened in ${appConfig.name}`,
@@ -272,9 +282,10 @@ export default function Command(props: LaunchProps<{ arguments: Arguments }>) {
     }
   }
 
-  const currentApp = preferences.appChoice === "custom" 
-    ? "Custom App" 
-    : (APP_CONFIGS[preferences.appChoice]?.name || "App");
+  const currentApp =
+    preferences.appChoice === "custom"
+      ? "Custom App"
+      : APP_CONFIGS[preferences.appChoice]?.name || "App";
 
   return (
     <List
@@ -290,7 +301,10 @@ export default function Command(props: LaunchProps<{ arguments: Arguments }>) {
           title={item.name}
           subtitle={item.path.replace(preferences.workspacePath, "~")}
           accessories={[
-            { text: item.frecency > 1 ? `×${item.frecency}` : undefined, icon: Icon.Star },
+            {
+              text: item.frecency > 1 ? `×${item.frecency}` : undefined,
+              icon: Icon.Star,
+            },
           ]}
           actions={
             <ActionPanel>
